@@ -185,6 +185,7 @@ class Simulation:
         self.spheres = self.create_spheres(num_spheres)
         self.walls = self.create_side_walls()
         self.collision_count = 0
+        self.collision_history = []
 
     def get_current_metrics(self):
             # Gibt die aktuellen Werte als Paket zurück.
@@ -220,6 +221,7 @@ class Simulation:
                 if sphere != other:
                     sphere.check_sphere_collision(other)
                     self.collision_count += 1
+                    self.collision_history.append(self.collision_count)
 
             sphere.equilibriate_temperature(self.temperature)
 
