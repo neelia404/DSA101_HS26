@@ -137,6 +137,8 @@ class ChemicalSphere(Sphere):
             other.x = -1000
             other.y = -1000
 
+            return True
+
 
 class Wall:
     """A class to represent a wall on our canvas."""
@@ -182,6 +184,12 @@ class Simulation:
         self.canvas = canvas(width=width, height=height)
         self.spheres = self.create_spheres(num_spheres)
         self.walls = self.create_side_walls()
+        self.collision_count = 0
+        self.collision_history = []
+
+    def get_current_metrics(self):
+            # Gibt die aktuellen Werte als Paket zurück.
+            return {"collisions": self.collision_count}          
 
     def create_spheres(self, num_spheres):
         spheres = []
@@ -212,6 +220,8 @@ class Simulation:
             for other in self.spheres:
                 if sphere != other:
                     sphere.check_sphere_collision(other)
+                    self.collision_count += 1
+                    self.collision_history.append(self.collision_count)
 
             sphere.equilibriate_temperature(self.temperature)
 
@@ -239,3 +249,5 @@ class Simulation:
             self.update()
             self.draw()
             time.sleep(0.002)
+
+      
